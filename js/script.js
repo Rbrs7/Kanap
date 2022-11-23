@@ -1,3 +1,19 @@
+function display(data) {
+  let html = "";
+  data.map(function (kanap) {
+    html += `<a href="./product.html?id=${kanap._id}">
+    <article>
+      <img src="${kanap.imageUrl}" alt="${kanap.altTxt}">
+      <h3 class="productName">${kanap.name}</h3>
+      <p class="productDescription">${kanap.description}</p>
+    </article>
+  </a>`;
+  });
+  console.log(html);
+  let itemsDiv = document.getElementById("items");
+  itemsDiv.innerHTML = html;
+}
+
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
     if (res.ok) {
@@ -5,23 +21,46 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function (data) {
-    console.log(data);
+    display(data);
   })
   .catch(function (err) {
     // Une erreur est survenue
   });
 
-/* let a = document.createElement("a");
- a.href = "href='./product.html?id=42'";
- let article = document.createElement("article");
- a.append(article)
- let image1 = document.createElement("img");
- image1.setAttribute(
-  "src",
-  "`${kanap.imageUrl}`"
- );
- image1.setAttribute("alt", "`${kanap.altTxt}`")
- article.append(image1);
- etc... */
+/*
+    let a = document.createElement("a");
+    a.href = "href='./product.html?id=kanap._id'";
+    let article = document.createElement("article");
+    a.append(article);
+    let image = document.createElement("img");
+    image.setAttribute("src", `${kanap.imageUrl}`);
+    image.setAttribute("alt", `${kanap.altTxt}`);
+    article.append(image);
+    let h3 = document.createElement("h3");
+    h3.className = "productName";
+    let h3Text = document.createTextNode(`${kanap.name}`);
+    h3.appendChild(h3Text);
+    article.append(h3);
+    let p = document.createElement("p");
+    p.className = "productDescription";
+    let pText = document.createTextNode(`${kanap.description}`);
+    p.appendChild(pText);
+    article.append(p);
+*/
 
- // peut-être enlever guillemets sur (`${kanap.imageUrl}`)
+/* function display(data) {
+  let html = ""
+  data.map(function (kanap) {
+    html += `<a href="./product.html?id=${kanap._id}">
+    <article>
+      <img src="${kanap.imageUrl}" alt="${kanap.description}">
+      <h3 class="productName">${kanap.name}</h3>
+      <p class="productDescription">${kanap.description}</p>
+    </article>
+  </a>`
+  });
+  console.log(html);
+  let itemsDiv = document.getElementById("items");
+  itemsDiv.innerHTML = html;
+}
+*/
