@@ -29,21 +29,21 @@ fetch("http://localhost:3000/api/products")
 
 /*
     let a = document.createElement("a");
-    a.href = "href='./product.html?id=kanap._id'";
+    a.href = "href='./product.html?id=${kanap._id}'";
     let article = document.createElement("article");
     a.append(article);
     let image = document.createElement("img");
-    image.setAttribute("src", `${kanap.imageUrl}`);
-    image.setAttribute("alt", `${kanap.altTxt}`);
+    image.setAttribute("src", "${kanap.imageUrl}");
+    image.setAttribute("alt", "${kanap.altTxt}");
     article.append(image);
     let h3 = document.createElement("h3");
     h3.className = "productName";
-    let h3Text = document.createTextNode(`${kanap.name}`);
+    let h3Text = document.createTextNode("${kanap.name}");
     h3.appendChild(h3Text);
     article.append(h3);
     let p = document.createElement("p");
     p.className = "productDescription";
-    let pText = document.createTextNode(`${kanap.description}`);
+    let pText = document.createTextNode("${kanap.description}");
     p.appendChild(pText);
     article.append(p);
 */
@@ -64,3 +64,5 @@ fetch("http://localhost:3000/api/products")
   itemsDiv.innerHTML = html;
 }
 */
+
+
