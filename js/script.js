@@ -1,4 +1,4 @@
-function display(data) {
+function displayKanap(data) {
   let html = "";
   data.map(function (kanap) {
     html += `<a href="./product.html?id=${kanap._id}">
@@ -21,7 +21,7 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function (data) {
-    display(data);
+    displayKanap(data);
   })
   .catch(function (err) {
     // Une erreur est survenue
