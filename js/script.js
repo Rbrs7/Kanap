@@ -1,13 +1,13 @@
 function displayKanap(data) {
-  let html = "";
+  let html = ""
   data.map(function (kanap) {
     html += `<a href="./product.html?id=${kanap._id}">
     <article>
-      <img src="${kanap.imageUrl}" alt="${kanap.altTxt}">
+      <img src="${kanap.imageUrl}" alt="${kanap.description}">
       <h3 class="productName">${kanap.name}</h3>
       <p class="productDescription">${kanap.description}</p>
     </article>
-  </a>`;
+  </a>`
   });
   console.log(html);
   let itemsDiv = document.getElementById("items");
@@ -27,7 +27,8 @@ fetch("http://localhost:3000/api/products")
     // Une erreur est survenue
   });
 
-/*
+/* DOM mode console 
+
     let a = document.createElement("a");
     a.href = "href='./product.html?id=${kanap._id}'";
     let article = document.createElement("article");
@@ -48,7 +49,8 @@ fetch("http://localhost:3000/api/products")
     article.append(p);
 */
 
-/* function display(data) {
+/* HTML mode "brut"
+function displayKanap(data) {
   let html = ""
   data.map(function (kanap) {
     html += `<a href="./product.html?id=${kanap._id}">
@@ -65,4 +67,31 @@ fetch("http://localhost:3000/api/products")
 }
 */
 
+/* Mode DOM pour le site
+function displayKanap(data) {
+  let a = document.createElement("a");
+  let article = document.createElement("article");
+  let image = document.createElement("img");
+  let h3 = document.createElement("h3");
+  let p = document.createElement("p");
+  data.map(function (kanap) {
+    a.href = `href=./product.html?id=${kanap._id}`;
+    a.append(article);
+    image.setAttribute("src", `${kanap.imageUrl}`);
+    image.setAttribute("alt", `${kanap.altTxt}`);
+    article.append(image);
+    h3.className = "productName";
+    let h3Text = document.createTextNode(`${kanap.name}`);
+    h3.appendChild(h3Text);
+    article.append(h3);
+    p.className = `productDescription`;
+    let pText = document.createTextNode(`${kanap.description}`);
+    p.appendChild(pText);
+    article.append(p);
+  });
+  console.log(a);
+  let itemsDiv = document.getElementById("items");
+  itemsDiv.innerHTML = a;
+}
+*/
 
