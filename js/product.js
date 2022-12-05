@@ -1,39 +1,29 @@
-var str =
-  "http://127.0.0.1:5500/front/html/product.html?id=107fb5b75607497b96722bda5b504926";
 var url = new URL(window.location.href);
 var id = url.searchParams.get("id");
 console.log(id);
 
-function displayProduct(data) {
-  let itemImg = "";
-  let title = "";
-  let price = "";
-  let kanapDesc = "";
-  let color = "";
-  data.map(function (kanap) {
-    if (id === `${kanap._id}`) {
-      itemImg += `<img src="${kanap.imageUrl}" alt="${kanap.altTxt}">`;
-      title += `${kanap.name}`;
-      price += `${kanap.price}`;
-      kanapDesc += `${kanap.description}`;
-      /*color += `<option value="${kanap.colors}">${kanap.colors}</option>
-      <option value="${kanap.colors}">${kanap.colors}</option>`; */
-    }
-  });
-  console.log(itemImg, title, price, kanapDesc, color);
+function displayProduct(kanap) {
+
+  kanap.colors.map(function(color) {
+    const colorHtml = document.createElement('option')
+    colorHtml.value = color
+    colorHtml.textContent = color
+    let select = document.getElementById("colors");
+    select.append(colorHtml)
+  })
+    
+  console.log('kanap', kanap)
   let itemClass = document.getElementsByClassName("item__img");
-  itemClass.innerHTML = itemImg;
+  itemClass.innerHTML = `<img src="${kanap.imageUrl}" alt="${kanap.altTxt}">`;
   let titleId = document.getElementById("title");
-  titleId.innerHTML = title;
+  titleId.innerHTML = kanap.name;
   let priceId = document.getElementById("price");
-  priceId.innerHTML = price;
+  priceId.innerHTML = kanap.price;
   let kanapDescId = document.getElementById("description");
-  kanapDescId.innerHTML = kanapDesc;
-  /* let colorsId = document.getElementById("colors");
-  colorsId.innerHTML = color; */
+  kanapDescId.innerHTML = kanap.description;
 }
 
-fetch("http://localhost:3000/api/products")
+fetch(`http://localhost:3000/api/products/${id}`)
   .then(function (res) {
     if (res.ok) {
       return res.json();

@@ -1,17 +1,26 @@
 function displayKanap(data) {
-  let html = ""
   data.map(function (kanap) {
-    html += `<a href="./product.html?id=${kanap._id}">
-    <article>
-      <img src="${kanap.imageUrl}" alt="${kanap.description}">
-      <h3 class="productName">${kanap.name}</h3>
-      <p class="productDescription">${kanap.description}</p>
-    </article>
-  </a>`
+    const a = document.createElement("a");
+    const article = document.createElement("article");
+    const image = document.createElement("img");
+    const h3 = document.createElement("h3");
+    const p = document.createElement("p");
+    a.href = `./product.html?id=${kanap._id}`;
+    a.append(article);
+    image.setAttribute("src", `${kanap.imageUrl}`);
+    image.setAttribute("alt", `${kanap.altTxt}`);
+    article.append(image);
+    h3.className = "productName";
+    let h3Text = document.createTextNode(`${kanap.name}`);
+    h3.appendChild(h3Text);
+    article.append(h3);
+    p.className = `productDescription`;
+    let pText = document.createTextNode(`${kanap.description}`);
+    p.appendChild(pText);
+    article.append(p);
+    let itemsDiv = document.getElementById("items");
+    itemsDiv.append(a);
   });
-  console.log(html);
-  let itemsDiv = document.getElementById("items");
-  itemsDiv.innerHTML = html;
 }
 
 fetch("http://localhost:3000/api/products")
@@ -93,5 +102,5 @@ function displayKanap(data) {
   let itemsDiv = document.getElementById("items");
   itemsDiv.innerHTML = a;
 }
-*/
 
+*/
