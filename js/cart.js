@@ -1,5 +1,3 @@
-/*
-
 function display(data) {
     let html = "";
     data.map(function (kanap) {
@@ -30,6 +28,7 @@ function display(data) {
     itemsCart.innerHTML = html;
   }
 
+
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
     if (res.ok) {
@@ -37,10 +36,20 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function (data) {
-    display(data);
+    console.log(data);
   })
   .catch(function (err) {
     // Une erreur est survenue
   });
 
-*/
+
+
+window.localStorage.setItem("name", "${kanap.name}")
+const kanapName = window.localStorage.getItem("name");
+
+window.localStorage.setItem("id", "${kanap.id}")
+const kanapId = window.localStorage.getItem("id");
+
+window.localStorage.setItem("colors", "${kanap.colors}")
+const kanapColors = window.localStorage.getItem("colors");
+console.log(localStorage);
