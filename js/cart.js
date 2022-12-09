@@ -1,3 +1,4 @@
+/*
 function display(data) {
     let html = "";
     data.map(function (kanap) {
@@ -27,7 +28,7 @@ function display(data) {
     let itemsCart = document.getElementById("cart__items");
     itemsCart.innerHTML = html;
   }
-
+  */
 
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
@@ -42,14 +43,72 @@ fetch("http://localhost:3000/api/products")
     // Une erreur est survenue
   });
 
+function saveCart(canap) {
+  localStorage.setItem("kanap", JSON.stringify(canap));
+}
 
+function getCart() {
+  let canap = localStorage.getItem("kanap");
+  if (canap == null) {
+    return [];
+  } else {
+    return JSON.parse(canap);
+  }
+}
 
-window.localStorage.setItem("name", "${kanap.name}")
-const kanapName = window.localStorage.getItem("name");
+function addCart(product) {
+  let canap = getCart();
+  let foundKanap = canap.find((p) => p.id == product.id);
+  if (foundKanap != undefined) {
+    foundKanap.quantity++;
+  } else {
+    product.quantity = 1;
+    canap.push(product);
+  }
 
-window.localStorage.setItem("id", "${kanap.id}")
-const kanapId = window.localStorage.getItem("id");
+  saveCart(canap);
+}
 
-window.localStorage.setItem("colors", "${kanap.colors}")
-const kanapColors = window.localStorage.getItem("colors");
-console.log(localStorage);
+function removeCart(product) {
+  let canap = getCart();
+  canap = canap.filter((p) => p.id != product.id);
+  saveCart(canap);
+}
+
+function changeQuantity(product, quantity) {
+  let canap = getCart();
+  let foundKanap = canap.find((p) => p.id == product.id);
+  if (foundKanap != undefined) {
+    foundKanap.quantity += quantity;
+    if (foundKanap.quantity <= 0) {
+      removeCart(foundKanap);
+    } else {
+      saveCart(canap);
+    }
+  }
+}
+
+function getNumberProduct(){
+  let canap = getCart();
+  let number = 0
+  for(let product of canap){
+    number += product.quantity;
+  }
+  return number
+}
+
+function getTotalPrice(){
+  let canap = getCart();
+  let total = 0
+  for(let product of canap){
+    total += product.quantity * product.price;
+  }
+  return total
+}
+
+/* test console 
+  addCart({id : "50", "name": "aaaa", "price": 15})
+  removeCart({id:"50"})
+  changeQuantity({id:"50"},-5) 
+  getTotalPrice()
+*/
