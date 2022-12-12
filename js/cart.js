@@ -111,3 +111,4 @@ function display(data) {
     let itemsCart = document.getElementById("cart__items");
     itemsCart.innerHTML = html;
   }
+  */
