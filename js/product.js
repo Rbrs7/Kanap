@@ -4,7 +4,7 @@ console.log(id);
 
 function displayProduct(kanap) {
 
-  kanap.colors.map(function(color) {
+  kanap.colors.forEach(function(color) {
     const colorHtml = document.createElement('option')
     colorHtml.value = color
     colorHtml.textContent = color

@@ -84,7 +84,7 @@ function getTotalPrice(){
 /*
 function display(data) {
     let html = "";
-    data.map(function (kanap) {
+    data.forEach(function (kanap) {
       html += `<article class="cart__item" data-id=${kanap._id} data-color=${kanap.colors}>
       <div class="cart__item__img">
         <img src="${kanap.imageUrl}" alt="${kanap.altTxt}">

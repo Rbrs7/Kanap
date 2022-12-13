@@ -1,5 +1,5 @@
 function displayKanap(data) {
-  data.map(function (kanap) {
+  data.forEach(function (kanap) {
     const a = document.createElement("a");
     const article = document.createElement("article");
     const image = document.createElement("img");
