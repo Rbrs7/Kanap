@@ -16,8 +16,8 @@ function saveCart(canap) {
 }
 
 function getCart() {
-  let canap = localStorage.getItem("kanap");
-  if (canap == null) {
+  const canap = localStorage.getItem("kanap");
+  if (canap === null) {
     return [];
   } else {
     return JSON.parse(canap);
@@ -25,9 +25,9 @@ function getCart() {
 }
 
 function addCart(product) {
-  let canap = getCart();
-  let foundKanap = canap.find((p) => p.id == product.id);
-  if (foundKanap != undefined) {
+  const canap = getCart();
+  let foundKanap = canap.find((p) => p.id === product.id);
+  if (foundKanap) { // ou if (!foundKanap)
     foundKanap.quantity++;
   } else {
     product.quantity = 1;
@@ -39,14 +39,14 @@ function addCart(product) {
 
 function removeCart(product) {
   let canap = getCart();
-  canap = canap.filter((p) => p.id != product.id);
+  canap = canap.filter((p) => p.id !== product.id);
   saveCart(canap);
 }
 
 function changeQuantity(product, quantity) {
-  let canap = getCart();
+  const canap = getCart();
   let foundKanap = canap.find((p) => p.id == product.id);
-  if (foundKanap != undefined) {
+  if (foundKanap) {
     foundKanap.quantity += quantity;
     if (foundKanap.quantity <= 0) {
       removeCart(foundKanap);
@@ -57,7 +57,7 @@ function changeQuantity(product, quantity) {
 }
 
 function getNumberProduct(){
-  let canap = getCart();
+  const canap = getCart();
   let number = 0
   for(let product of canap){
     number += product.quantity;
@@ -66,7 +66,7 @@ function getNumberProduct(){
 }
 
 function getTotalPrice(){
-  let canap = getCart();
+  const canap = getCart();
   let total = 0
   for(let product of canap){
     total += product.quantity * product.price;

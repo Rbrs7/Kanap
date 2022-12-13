@@ -23,6 +23,8 @@ function displayProduct(kanap) {
   kanapDescId.innerHTML = kanap.description;
 }
 
+
+
 fetch(`http://localhost:3000/api/products/${id}`)
   .then(function (res) {
     if (res.ok) {
