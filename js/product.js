@@ -44,8 +44,16 @@ if (addToCartBtn) {
     selectColor.value;
     const quantity = document.getElementById("quantity");
     quantity.value;
-    const qty = quantity.value
-    parseInt(qty, 10)
-    console.log(selectColor.value, qty);
+    const qty = quantity.value;
+    parseInt(qty, 10);
+    if (quantity.value > 0 && selectColor.value !== "") {
+      let product = new Object();
+      product.id = id;
+      product.quantity = qty;
+      product.color = selectColor.value;
+      addCart(product);
+    } else {
+      alert("Veuillez renseigner la couleur et le nombre d'article(s)");
+    }
   });
 }

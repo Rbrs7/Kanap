@@ -13,7 +13,7 @@ function saveCart(canap) {
   
   function addCart(product) {
     const canap = getCart();
-    let foundKanap = canap.find((p) => p.id === product.id);
+    let foundKanap = canap.find((p) => p.id === product.id && p.color === product.color);
     if (foundKanap) { // ou if (!foundKanap)
       foundKanap.quantity++;
     } else {
