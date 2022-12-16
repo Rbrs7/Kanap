@@ -1,61 +1,61 @@
-function saveCart(canap) {
-    localStorage.setItem("kanap", JSON.stringify(canap));
+function saveCart(kanap) {
+    localStorage.setItem("kanap", JSON.stringify(kanap));
   }
   
   function getCart() {
-    const canap = localStorage.getItem("kanap");
-    if (canap === null) {
+    const kanap = localStorage.getItem("kanap");
+    if (kanap === null) {
       return [];
     } else {
-      return JSON.parse(canap);
+      return JSON.parse(kanap);
     }
   }
   
   function addCart(product) {
-    const canap = getCart();
-    let foundKanap = canap.find((p) => p.id === product.id && p.color === product.color);
+    const kanap = getCart();
+    let foundKanap = kanap.find((p) => p.id === product.id && p.color === product.color);
     if (foundKanap) { // ou if (!foundKanap)
       foundKanap.quantity++;
     } else {
       product.quantity = 1;
-      canap.push(product);
+      kanap.push(product);
     }
   
-    saveCart(canap);
+    saveCart(kanap);
   }
   
   function removeCart(product) {
-    let canap = getCart();
-    canap = canap.filter((p) => p.id !== product.id);
-    saveCart(canap);
+    let kanap = getCart();
+    kanap = kanap.filter((p) => p.id !== product.id);
+    saveCart(kanap);
   }
   
   function changeQuantity(product, quantity) {
-    const canap = getCart();
-    let foundKanap = canap.find((p) => p.id == product.id);
+    const kanap = getCart();
+    let foundKanap = kanap.find((p) => p.id === product.id && p.color === product.color);
     if (foundKanap) {
       foundKanap.quantity += quantity;
       if (foundKanap.quantity <= 0) {
         removeCart(foundKanap);
       } else {
-        saveCart(canap);
+        saveCart(kanap);
       }
     }
   }
   
   function getNumberProduct(){
-    const canap = getCart();
+    const kanap = getCart();
     let number = 0
-    for(let product of canap){
+    for(let product of kanap){
       number += product.quantity;
     }
     return number
   }
   
   function getTotalPrice(){
-    const canap = getCart();
+    const kanap = getCart();
     let total = 0
-    for(let product of canap){
+    for(let product of kanap){
       total += product.quantity * product.price;
     }
     return total
