@@ -17,7 +17,7 @@ function saveCart(kanap) {
     if (foundKanap) { // ou if (!foundKanap)
       foundKanap.quantity++;
     } else {
-      product.quantity = 1;
+      product.quantity.value;
       kanap.push(product);
     }
   
