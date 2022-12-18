@@ -44,7 +44,7 @@ if (addToCartBtn) {
     selectColor.value;
     const quantity = document.getElementById("quantity");
     quantity.value;
-    const qty = quantity.value;
+    let qty = quantity.value;
     parseInt(qty, 10);
     if (quantity.value > 0 && selectColor.value !== "") {
       const product = new Object();
