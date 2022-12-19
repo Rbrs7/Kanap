@@ -11,7 +11,6 @@ fetch("http://localhost:3000/api/products")
     // Une erreur est survenue
   });
 
-
 /*
 function display(data) {
     let html = "";
@@ -43,3 +42,9 @@ function display(data) {
     itemsCart.innerHTML = html;
   }
   */
+
+let keys = Object.keys(localStorage);
+for (let key of keys) {
+  console.log(`${key}: ${localStorage.getItem(key)}`);
+}
+

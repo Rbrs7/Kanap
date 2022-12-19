@@ -30,7 +30,7 @@ function saveCart(kanap) {
     saveCart(kanap);
   }
   
-  function changeQuantity(product, quantity) {
+/*  function changeQuantity(product, quantity) {
     const kanap = getCart();
     let foundKanap = kanap.find((p) => p.id === product.id && p.color === product.color);
     if (foundKanap) {
@@ -42,6 +42,7 @@ function saveCart(kanap) {
       }
     }
   }
+*/
   
   function getNumberProduct(){
     const kanap = getCart();
