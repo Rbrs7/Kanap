@@ -46,7 +46,6 @@ if (addToCartBtn) {
     quantity.value;
     let qty = quantity.value;
     parseInt(qty, 10);
-    let titleId = document.getElementById("title");
     if (quantity.value > 0 && selectColor.value !== "") {
       const product = new Object();
       product.id = id;
