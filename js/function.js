@@ -15,9 +15,8 @@ function saveCart(kanap) {
     const kanap = getCart();
     let foundKanap = kanap.find((p) => p.id === product.id && p.color === product.color);
     if (foundKanap) { // ou if (!foundKanap)
-      foundKanap.quantity += Number(quantity.value);
+      foundKanap.quantity += Number(product.quantity);
     } else {
-      product.quantity = Number(quantity.value);
       kanap.push(product);
     }
   

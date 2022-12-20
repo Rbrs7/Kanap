@@ -1,15 +1,24 @@
+let kanaps = []
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
     if (res.ok) {
       return res.json();
     }
   })
-  .then(function (product) {
-    getCartData(product);
+  .then(function (products) {
+    kanaps = products;
+    displayCartData();
   })
   .catch(function (err) {
     // Une erreur est survenue
   });
+
+findKanapFromId(id) {
+  kanaps.find(function(kanap) {
+    return kanap._id === id
+  })
+  return kanap;
+}
 
 /*
 const cartSection = document.getElementById("cart__items");
@@ -80,10 +89,10 @@ function display(data) {
   }
   */
 
-function getCartData(product) {
-  const myCart = JSON.parse(localStorage.getItem("kanap"));
-  if (myCart != null) {
-    for (let purchase of myCart) {
+function displayCartData() {
+  const myCart = getCart()
+  if (myCart !== null) {
+    for (let  of myCart) {
       for (let a = 0, b = product.length; a < b; a++) {
         if (purchase.id === product[a].id) {
           purchase.name = products[a].name;
