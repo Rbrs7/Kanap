@@ -1,4 +1,4 @@
-let kanaps = []
+let kanaps = [];
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
     if (res.ok) {
@@ -13,68 +13,55 @@ fetch("http://localhost:3000/api/products")
     // Une erreur est survenue
   });
 
-findKanapFromId(id) {
-  kanaps.find(function(kanap) {
-    return kanap._id === id
-  })
+function findKanapFromId(id) {
+  const kanap = kanaps.find(function (kanap) {
+    return kanap._id === id;
+  });
   return kanap;
 }
 
-/*
-const cartSection = document.getElementById("cart__items");
-const cartPrice = document.getElementsByClassName("cart__price");
-const h1 = document.getElementsByTagName("h1");
-
-function displayCart() {
-  let kanap = getCart();
-  let price = 0;
-  if (localStorage.getItem("kanap") != null) {
-    cartSection.innerHTML += `<article class="cart__item" data-id="${localStorage.getItem("id")}" data-color="${localStorage.getItem("color")}">
-      <div class="cart__item__img">
-        <img src="${kanap.imageUrl}" alt="${kanap.altTxt}">
-      </div>
-      <div class="cart__item__content">
-        <div class="cart__item__content__titlePrice">
-          <h2>${kanap.name}</h2>
-          <p>${localStorage.getItem("color")}</p>
-          <p>${price} €</p>
-        </div>
-        <div class="cart__item__content__settings">
-          <div class="cart__item__content__settings__quantity">
-            <p>Qté : </p>
-            <input type="number" class="itemQuantity" name="itemQuantity" onchange="changeQuantity('${localStorage.getItem("id")}', '${localStorage.getItem("color")}', this.value)" min="1" max="100" value="${localStorage.getItem("quantity")}">
-          </div>
-          <div class="cart__item__content__settings__delete">
-            <p class="deleteItem" onclick="deleteItem('${localStorage.getItem("id")}','${localStorage.getItem("color")}')">Supprimer</p>
-          </div>
-        </div>
-      </div>
-    </article>`;
+function displayCartData() {
+  console.log("displayCartData");
+  const myCart = getCart();
+  console.log("myCart", myCart);
+  const data = [];
+  if (myCart !== null) {
+    myCart.forEach(function (cartItem, index) {
+      console.log("myCart forEach", index);
+      const kanap = findKanapFromId(cartItem.id);
+      console.log("kanap", kanap);
+      const rowData = { ...cartItem, ...kanap };
+      console.log("rowData", rowData);
+      data.push(rowData);
+    });
+    displayCart(data);
   } else {
     document.querySelector("h1").innerHTML =
       "Vous n'avez pas d'article dans votre panier";
   }
 }
-*/
 
-/*
-function display(data) {
-    let html = "";
-    data.forEach(function (kanap) {
-      html += `<article class="cart__item" data-id=${kanap._id} data-color=${kanap.colors}>
+function displayCart(rowData) {
+  console.log("displayCart", rowData);
+  const cartSection = document.getElementById("cart__items");
+  let html = "";
+  rowData.forEach(function (rowItem, index) {
+    console.log("displayCart rowItem", rowItem, index);
+    html += `
+    <article class="cart__item" data-id="${rowItem.id}" data-color="${rowItem.color}">
       <div class="cart__item__img">
-        <img src="${kanap.imageUrl}" alt="${kanap.altTxt}">
+        <img src="${rowItem.imageUrl}" alt="${rowItem.altTxt}">
       </div>
       <div class="cart__item__content">
-        <div class="cart__item__content__description">
-          <h2>${kanap.name}</h2>
-          <p>${kanap.colors}</p>
-          <p>${kanap.price}</p>
+        <div class="cart__item__content__titlePrice">
+          <h2>${rowItem.name}</h2>
+          <p>${rowItem.color}</p>
+          <p>${rowItem.price} €</p>
         </div>
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
             <p>Qté : </p>
-            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+            <input type="number" class="itemQuantity" name="itemQuantity"  min="1" max="100" value="${rowItem.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
             <p class="deleteItem">Supprimer</p>
@@ -82,58 +69,7 @@ function display(data) {
         </div>
       </div>
     </article>`;
-    });
-    console.log(html);
-    let itemsCart = document.getElementById("cart__items");
-    itemsCart.innerHTML = html;
-  }
-  */
-
-function displayCartData() {
-  const myCart = getCart()
-  if (myCart !== null) {
-    for (let  of myCart) {
-      for (let a = 0, b = product.length; a < b; a++) {
-        if (purchase.id === product[a].id) {
-          purchase.name = products[a].name;
-          purchase.price = products[a].price;
-          purchase.imageUrl = products[a].imageUrl;
-          purchase.altTxt = products[a].altTxt;
-          purchase.description = products[a].description;
-        }
-      }
-    }
-    displayCart(myCart);
-  } else {
-    document.querySelector("h1").innerHTML =
-      "Vous n'avez pas d'article dans votre panier";
-  }
-}
-
-function displayCart(myCart) {
-  const cartSection = document.getElementById("cart__items");
-  cartSection.innerHTML += myCart.map(
-    (purchase) =>
-      `<article class="cart__item" data-id="${purchase.id}" data-color="${purchase.color}">
-      <div class="cart__item__img">
-        <img src="${purchase.imageUrl}" alt="${purchase.altTxt}">
-      </div>
-      <div class="cart__item__content">
-        <div class="cart__item__content__titlePrice">
-          <h2>${purchase.name}</h2>
-          <p>${purchase.color}</p>
-          <p>${purchase.price} €</p>
-        </div>
-        <div class="cart__item__content__settings">
-          <div class="cart__item__content__settings__quantity">
-            <p>Qté : </p>
-            <input type="number" class="itemQuantity" name="itemQuantity" onchange="changeQuantity('${purchase.id}', '${purchase.color}', this.value)" min="1" max="100" value="${purchase.quantity}">
-          </div>
-          <div class="cart__item__content__settings__delete">
-            <p class="deleteItem" onclick="deleteItem('${purchase.id}','${purchase.color}')">Supprimer</p>
-          </div>
-        </div>
-      </div>
-    </article>`
-  );
+  });
+  cartSection.innerHTML = html;
+  console.log("html", html);
 }
