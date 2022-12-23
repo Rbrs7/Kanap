@@ -64,12 +64,25 @@ function displayCart(rowData) {
             <input type="number" class="itemQuantity" name="itemQuantity"  min="1" max="100" value="${rowItem.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
-            <p class="deleteItem">Supprimer</p>
+            <p class="deleteItem"><button class = "del">Supprimer</button></p>
           </div>
         </div>
       </div>
     </article>`;
   });
   cartSection.innerHTML = html;
-  console.log("html", html);
+}
+
+const removeBtn = document.querySelectorAll(".del");
+removeBtn.forEach((btn, i) => {
+  btn.addEventListener("click", () => deleteItemSelect(i));
+});
+
+function deleteItemSelect(index, rowItem) {
+  items.splice(index, 1);
+  localStorage.setItem("kanap", JSON.stringify(rowItem));
+
+  if (items.length === 0) {
+    localStorage.removeItem("kanap");
+  }
 }
