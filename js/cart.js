@@ -64,7 +64,7 @@ function displayCart(rowData) {
             <input type="number" class="itemQuantity" name="itemQuantity"  min="1" max="100" value="${rowItem.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
-            <p class="deleteItem"><button class = "del">Supprimer</button></p>
+            <p id="deleteItem">Supprimer</p>
           </div>
         </div>
       </div>
@@ -73,6 +73,7 @@ function displayCart(rowData) {
   cartSection.innerHTML = html;
 }
 
+/*
 const removeBtn = document.querySelectorAll(".del");
 removeBtn.forEach((btn, i) => {
   btn.addEventListener("click", () => deleteItemSelect(i));
@@ -86,3 +87,24 @@ function deleteItemSelect(index, rowItem) {
     localStorage.removeItem("kanap");
   }
 }
+*/
+
+const removeBtn = document.getElementById("deleteItem");
+if (removeBtn) {
+  removeBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    removeCart();
+  });
+}
+
+function getNumberProduct() {
+  const kanapNumber = getCart();
+  let number = 0;
+  let cartQuantity = document.getElementById("totalQuantity");
+  for (let product of kanapNumber) {
+    number += product.quantity;
+    console.log("number :", number);
+  }
+  cartQuantity.append(number);
+}
+getNumberProduct();
