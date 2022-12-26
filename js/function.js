@@ -53,7 +53,7 @@ function getNumberProduct() {
   for (let product of kanapNumber) {
     number += product.quantity;
   }
-  console.log(number);
+  return number;
 }
 
 function getTotalPrice() {
