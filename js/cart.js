@@ -25,15 +25,19 @@ function displayCartData() {
   const myCart = getCart();
   console.log("myCart", myCart);
   const data = [];
+  let total = 0;
+  let totalCart = document.getElementById("totalPrice");
   if (myCart !== null) {
     myCart.forEach(function (cartItem, index) {
       console.log("myCart forEach", index);
       const kanap = findKanapFromId(cartItem.id);
       console.log("kanap", kanap, kanap.price);
+      total += cartItem.quantity * kanap.price
       const rowData = { ...cartItem, ...kanap };
       console.log("rowData", rowData);
       data.push(rowData);
     });
+    totalCart.append(total);
     displayCart(data);
   } else {
     document.querySelector("h1").innerHTML =
@@ -110,14 +114,36 @@ function getNumberProduct() {
 }
 getNumberProduct();
 
-function TotalPrice() {
-  const priceKanap = getCart();
+/*  function TotalPrice() {
+  const myCart = getCart();
   let total = 0;
   let totalCart = document.getElementById("totalPrice");
-  for (let product of priceKanap) {
-    total += product.quantity * product.price;
+  for (let product of myCart) {
+    console.log(product.id)
+    const kanap = findKanapFromId(product.id);
+    console.log(kanap.price)
+    // total += product.quantity * kanap.price;
     console.log("total : ", total);
   }
   totalCart.append(total);
 }
-TotalPrice();
+TotalPrice();  */
+
+/* function TotalPrice() {
+  const myCart = getCart();
+  let total = 0;
+  let totalCart = document.getElementById("totalPrice");
+  if (myCart !== null) {
+    myCart.forEach(function (cartItem) {
+      console.log("test", cartItem.id);
+      const kanap = findKanapFromId(cartItem.id);
+      
+      console.log("AAAAAAAAA", cartItem.quantity);
+      // total += cartItem.quantity * kanap.price;
+      console.log("total : ", total);
+    });
+    totalCart.append(total);
+  }
+}
+TotalPrice(); */
+
