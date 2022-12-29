@@ -32,7 +32,7 @@ function displayCartData() {
       console.log("myCart forEach", index);
       const kanap = findKanapFromId(cartItem.id);
       console.log("kanap", kanap, kanap.price);
-      total += cartItem.quantity * kanap.price
+      total += cartItem.quantity * kanap.price;
       const rowData = { ...cartItem, ...kanap };
       console.log("rowData", rowData);
       data.push(rowData);
@@ -102,7 +102,7 @@ if (removeBtn) {
   });
 }
 
-function getNumberProduct() {
+function displayNumberProduct() {
   const kanapNumber = getCart();
   let number = 0;
   let cartQuantity = document.getElementById("totalQuantity");
@@ -112,7 +112,7 @@ function getNumberProduct() {
   }
   cartQuantity.append(number);
 }
-getNumberProduct();
+displayNumberProduct();
 
 /*  function TotalPrice() {
   const myCart = getCart();
@@ -146,4 +146,24 @@ TotalPrice();  */
   }
 }
 TotalPrice(); */
+
+function changeQuantity(product, quantity) {
+  const itemQuantity = document.querySelectorAll(".itemQuantity");
+  const kanap = getCart();
+  let foundKanap = kanap.find(
+    (p) => p.id === product.id && p.color === product.color
+  );
+  if (foundKanap) {
+    itemQuantity.addEventListener("click", function (event) {
+      event.preventDefault();
+      foundKanap.quantity += kanap.quantity;
+    });
+    if (foundKanap.quantity <= 0) {
+      removeCart(foundKanap);
+    } else {
+      saveCart(kanap);
+    }
+  }
+}
+
 
