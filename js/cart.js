@@ -32,7 +32,7 @@ function displayCartData() {
       console.log("myCart forEach", index);
       const kanap = findKanapFromId(cartItem.id);
       console.log("kanap", kanap, kanap.price);
-      total += cartItem.quantity * kanap.price;
+      total += cartItem.quantity * kanap.price
       const rowData = { ...cartItem, ...kanap };
       console.log("rowData", rowData);
       data.push(rowData);
@@ -68,7 +68,7 @@ function displayCart(rowData) {
             <input type="number" class="itemQuantity" name="itemQuantity"  min="1" max="100" value="${rowItem.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
-            <p id="deleteItem">Supprimer</p>
+            <p class="deleteItem">Supprimer</p>
           </div>
         </div>
       </div>
@@ -94,13 +94,13 @@ function deleteItemSelect(index, rowItem) {
 }
 */
 
-const removeBtn = document.getElementById("deleteItem");
+/* const removeBtn = document.getElementById("deleteItem");
 if (removeBtn) {
   removeBtn.addEventListener("click", function (event) {
     event.preventDefault();
     removeCart();
   });
-}
+} */
 
 function displayNumberProduct() {
   const kanapNumber = getCart();
@@ -146,24 +146,3 @@ TotalPrice();  */
   }
 }
 TotalPrice(); */
-
-function changeQuantity(product, quantity) {
-  const itemQuantity = document.querySelectorAll(".itemQuantity");
-  const kanap = getCart();
-  let foundKanap = kanap.find(
-    (p) => p.id === product.id && p.color === product.color
-  );
-  if (foundKanap) {
-    itemQuantity.addEventListener("click", function (event) {
-      event.preventDefault();
-      foundKanap.quantity += kanap.quantity;
-    });
-    if (foundKanap.quantity <= 0) {
-      removeCart(foundKanap);
-    } else {
-      saveCart(kanap);
-    }
-  }
-}
-
-
