@@ -39,6 +39,7 @@ function displayCartData() {
     });
     totalCart.append(total);
     displayCart(data);
+    deleteButton();
   } else {
     document.querySelector("h1").innerHTML =
       "Vous n'avez pas d'article dans votre panier";
@@ -152,6 +153,8 @@ function removeProduct(id, color) {
     (item) => item.id !== id && item.color !== color
   );
   saveCart(updatedKanap);
+  displayNumberProduct();
+  displayCartData();
 }
 
 function deleteButton() {
@@ -159,11 +162,11 @@ function deleteButton() {
   deleteButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const parentElement =
-        event.target.parentElement.parentElement.parentElement;
+        event.target.parentElement.parentElement.parentElement.parentElement;
+      console.log("parentHTML", parentElement);
       const id = parentElement.dataset.id;
       const color = parentElement.dataset.color;
       removeProduct(id, color);
     });
   });
 }
-deleteButton();
