@@ -170,3 +170,43 @@ function deleteButton() {
     });
   });
 }
+
+function updateQuantity() {
+  const kanap = getCart();
+  let quantityButton = document.querySelector("input");
+  const number = document.querySelectorAll(".itemQuantity");
+  let foundKanap = kanap.find(
+    (p) => p.id === kanap.id && p.color === kanap.color
+  );
+  if (foundKanap) {
+    quantityButton.addEventListener("click", (change) => {
+      change = number + quantityButton;
+      kanap.quantity++;
+      console.log("DOEZIJFDIOEZF", number);
+    });
+    saveCart();
+    displayNumberProduct();
+  }
+}
+updateQuantity();
+
+/* function changeQuantity(product, quantity) {
+  const kanap = getCart();
+  const quantityButton = document.querySelectorAll(".itemQuantity");
+  let number = document.querySelector("input");
+  let foundKanap = kanaps.find(
+    (p) => p.id === product.id && p.color === product.color
+  );
+  if (foundKanap) {
+    let quantity = quantityButton.value;
+    quantityButton.forEach((quantity) => {
+      answer.addEventListener("change", function () {
+        quantity = number.value;
+        foundKanap.quantity += number.value;
+        saveCart(kanap);
+        displayNumberProduct();
+      });
+    });
+  }
+}
+changeQuantity(); */
