@@ -180,6 +180,7 @@ function updateQuantity() {
       newQuantity = parseInt(newQuantity, 10);
       console.log("La nouvelle quantité :", newQuantity);
       const parentElement = event.target.closest(".cart__item");
+      console.log("L'élément parent le plus proche est :", parentElement);
       const id = parentElement.dataset.id;
       const color = parentElement.dataset.color;
       const myCart = getCart();
