@@ -3,9 +3,9 @@ var url = new URL(window.location.href);
 var id = url.searchParams.get("id");
 console.log(id);
 
-// Affiche les informations du produit dans la page HTML
+// Affiche les informations du produit dans la page HTML product
 function displayProduct(kanap) {
-  // Affiche la liste des couleurs disponibles dans une liste déroulante
+  // Affiche la liste des couleurs disponibles dans la liste déroulante
   kanap.colors.forEach(function (color) {
     const colorHtml = document.createElement("option");
     colorHtml.value = color;
@@ -25,40 +25,39 @@ function displayProduct(kanap) {
   kanapDescId.innerHTML = kanap.description; // Affiche la description du produit
 }
 
-// Fait une requête HTTP GET vers l'URL de l'API pour récupérer les informations du produit
+// Requête l'API pour récupérer les informations du produit à l'aide de l'ID
 fetch(`http://localhost:3000/api/products/${id}`)
   .then(function (res) {
     // Si la réponse HTTP est valide
     if (res.ok) {
-      return res.json(); // Convertit la réponse en objet JavaScript
+      return res.json(); // Convertit la réponse en objet
     }
   })
   .then(function (data) {
-    displayProduct(data); // Affiche les informations du produit dans la page HTML
+    displayProduct(data); // Affiche les informations du produit dans la page HTML product
   })
   .catch(function (err) {
-    // Gère les erreurs survenues lors de la requête HTTP ou de la conversion de la réponse en objet JavaScript
+    // Une erreur est survenue
   });
 
 // Récupère le bouton "Ajouter au panier"
 const addToCartBtn = document.getElementById("addToCart");
 
-// Si le bouton existe
 if (addToCartBtn) {
   // Ajoute un écouteur d'événement "click" au bouton
   addToCartBtn.addEventListener("click", function (event) {
     // Empêche l'exécution de l'action par défaut du bouton
     event.preventDefault();
-    // Récupère la valeur sélectionnée dans la liste déroulante des couleurs
+    // Récupère la valeur sélectionné dans la liste des couleurs
     const selectColor = document.getElementById("colors");
     selectColor.value;
-    // Récupère la valeur saisie dans le champ de quantité
+    // Récupère la quantitée saisie
     const quantity = document.getElementById("quantity");
     quantity.value;
     // Convertit la valeur de quantité en entier
     let qty = quantity.value;
     qty = parseInt(qty, 10);
-    // Vérifie que la couleur et la quantité sont renseignées
+    // Vérifie que la couleur et la quantitée sont renseignées
     if (qty > 0 && selectColor.value !== "") {
       // Crée un objet "product" avec les informations du produit à ajouter au panier
       const product = new Object();
@@ -68,7 +67,7 @@ if (addToCartBtn) {
       // Appelle la fonction "addCart" avec l'objet "product" en paramètre
       addCart(product);
     } else {
-      // Affiche une alerte si la couleur et/ou la quantité ne sont pas renseignées
+      // Affiche une alerte si la couleur et/ou la quantitée ne sont pas renseignées
       alert("Veuillez renseigner la couleur et le nombre d'article(s)");
     }
   });

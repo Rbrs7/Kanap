@@ -39,6 +39,7 @@ function displayCartData() {
     });
     totalCart.append(total);
     displayCart(data);
+    updateQuantity();
     deleteButton();
   } else {
     document.querySelector("h1").innerHTML =
@@ -107,7 +108,7 @@ function displayNumberProduct() {
   let number = 0;
   let cartQuantity = document.getElementById("totalQuantity");
   for (let product of kanapNumber) {
-    number += product.quantity;
+    number = number + product.quantity;
     console.log("number :", number);
   }
   cartQuantity.append(number);
@@ -161,8 +162,7 @@ function deleteButton() {
   const deleteButtons = document.querySelectorAll(".deleteItem");
   deleteButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
-      const parentElement =
-        event.target.parentElement.parentElement.parentElement.parentElement;
+      const parentElement = event.target.closest(".cart__item");
       console.log("parentHTML", parentElement);
       const id = parentElement.dataset.id;
       const color = parentElement.dataset.color;
@@ -172,41 +172,25 @@ function deleteButton() {
 }
 
 function updateQuantity() {
-  const kanap = getCart();
-  let quantityButton = document.querySelector("input");
-  const number = document.querySelectorAll(".itemQuantity");
-  let foundKanap = kanap.find(
-    (p) => p.id === kanap.id && p.color === kanap.color
-  );
-  if (foundKanap) {
-    quantityButton.addEventListener("click", (change) => {
-      change = number + quantityButton;
-      kanap.quantity++;
-      console.log("DOEZIJFDIOEZF", number);
+  const quantityInputs = document.querySelectorAll(".itemQuantity");
+  quantityInputs.forEach((input) => {
+    input.addEventListener("change", (event) => {
+      console.log("La fonction a été exécutée");
+      let newQuantity = event.target.value;
+      newQuantity = parseInt(newQuantity, 10);
+      console.log("La nouvelle quantité :", newQuantity);
+      const parentElement = event.target.closest(".cart__item");
+      const id = parentElement.dataset.id;
+      const color = parentElement.dataset.color;
+      const myCart = getCart();
+      const updateItem = myCart.find(
+        (item) => item.id === id && item.color === color
+      );
+      console.log("Contenu de myCart :", myCart);
+      console.log("id :", id, "color :", color);
+      console.log("L'objet à mettre à jour :", updateItem);
+      updateItem.quantity = newQuantity;
+      saveCart(myCart);
     });
-    saveCart();
-    displayNumberProduct();
-  }
+  });
 }
-updateQuantity();
-
-/* function changeQuantity(product, quantity) {
-  const kanap = getCart();
-  const quantityButton = document.querySelectorAll(".itemQuantity");
-  let number = document.querySelector("input");
-  let foundKanap = kanaps.find(
-    (p) => p.id === product.id && p.color === product.color
-  );
-  if (foundKanap) {
-    let quantity = quantityButton.value;
-    quantityButton.forEach((quantity) => {
-      answer.addEventListener("change", function () {
-        quantity = number.value;
-        foundKanap.quantity += number.value;
-        saveCart(kanap);
-        displayNumberProduct();
-      });
-    });
-  }
-}
-changeQuantity(); */
