@@ -37,10 +37,11 @@ function displayCartData() {
       console.log("rowData", rowData);
       data.push(rowData);
     });
-    totalCart.append(total);
+    totalCart.textContent = total;
     displayCart(data);
     updateQuantity();
     deleteButton();
+    displayNumberProduct();
   } else {
     document.querySelector("h1").innerHTML =
       "Vous n'avez pas d'article dans votre panier";
@@ -107,13 +108,12 @@ function displayNumberProduct() {
   const kanapNumber = getCart();
   let number = 0;
   let cartQuantity = document.getElementById("totalQuantity");
+  cartQuantity.innerHTML = "";
   for (let product of kanapNumber) {
     number = number + product.quantity;
-    console.log("number :", number);
   }
   cartQuantity.append(number);
 }
-displayNumberProduct();
 
 /*  function TotalPrice() {
   const myCart = getCart();
@@ -149,13 +149,16 @@ TotalPrice();  */
 TotalPrice(); */
 
 function removeProduct(id, color) {
-  const kanap = getCart();
-  const updatedKanap = kanap.filter(
-    (item) => item.id !== id && item.color !== color
+  const kanaps = getCart();
+  const indexToRemove = kanaps.findIndex(
+    (item) => item.id === id && item.color === color
   );
-  saveCart(updatedKanap);
-  displayNumberProduct();
-  displayCartData();
+  if (indexToRemove > -1) {
+    console.log("indexToRemove", indexToRemove);
+    kanaps.splice(indexToRemove, 1);
+    console.log("newCart", kanaps);
+  }
+  saveCart(kanaps);
 }
 
 function deleteButton() {
@@ -167,6 +170,7 @@ function deleteButton() {
       const id = parentElement.dataset.id;
       const color = parentElement.dataset.color;
       removeProduct(id, color);
+      displayCartData();
     });
   });
 }
@@ -192,6 +196,7 @@ function updateQuantity() {
       console.log("L'objet à mettre à jour :", updateItem);
       updateItem.quantity = newQuantity;
       saveCart(myCart);
+      displayCartData();
     });
   });
 }
