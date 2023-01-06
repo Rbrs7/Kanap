@@ -80,30 +80,6 @@ function displayCart(rowData) {
   cartSection.innerHTML = html;
 }
 
-/*
-const removeBtn = document.querySelectorAll(".del");
-removeBtn.forEach((btn, i) => {
-  btn.addEventListener("click", () => deleteItemSelect(i));
-});
-
-function deleteItemSelect(index, rowItem) {
-  items.splice(index, 1);
-  localStorage.setItem("kanap", JSON.stringify(rowItem));
-
-  if (items.length === 0) {
-    localStorage.removeItem("kanap");
-  }
-}
-*/
-
-/* const removeBtn = document.getElementById("deleteItem");
-if (removeBtn) {
-  removeBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    removeCart();
-  });
-} */
-
 function displayNumberProduct() {
   const kanapNumber = getCart();
   let number = 0;
@@ -114,39 +90,6 @@ function displayNumberProduct() {
   }
   cartQuantity.append(number);
 }
-
-/*  function TotalPrice() {
-  const myCart = getCart();
-  let total = 0;
-  let totalCart = document.getElementById("totalPrice");
-  for (let product of myCart) {
-    console.log(product.id)
-    const kanap = findKanapFromId(product.id);
-    console.log(kanap.price)
-    // total += product.quantity * kanap.price;
-    console.log("total : ", total);
-  }
-  totalCart.append(total);
-}
-TotalPrice();  */
-
-/* function TotalPrice() {
-  const myCart = getCart();
-  let total = 0;
-  let totalCart = document.getElementById("totalPrice");
-  if (myCart !== null) {
-    myCart.forEach(function (cartItem) {
-      console.log("test", cartItem.id);
-      const kanap = findKanapFromId(cartItem.id);
-      
-      console.log("AAAAAAAAA", cartItem.quantity);
-      // total += cartItem.quantity * kanap.price;
-      console.log("total : ", total);
-    });
-    totalCart.append(total);
-  }
-}
-TotalPrice(); */
 
 function removeProduct(id, color) {
   const kanaps = getCart();
@@ -200,3 +143,94 @@ function updateQuantity() {
     });
   });
 }
+
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const address = document.getElementById("address");
+const city = document.getElementById("city");
+const email = document.getElementById("email");
+// REGEX
+const firstNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+const lastNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+const addressRegex = /^[#.0-9a-zA-ZÀ-ÿ\s,-]{2,40}$/;
+const cityRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+const emailRegex =
+  /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/;
+
+const orderButton = document.querySelector("#order");
+
+const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
+const lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
+const addressErrorMsg = document.querySelector("#addressErrorMsg");
+const cityErrorMsg = document.querySelector("#cityErrorMsg");
+const emailErrorMsg = document.querySelector("#emailErrorMsg");
+
+orderButton.addEventListener("click", function (e) {
+  e.preventDefault();
+  let firstNameValue = firstName.value;
+  let lastNameValue = lastName.value;
+  let addressValue = address.value;
+  let cityValue = city.value;
+  let emailValue = email.value;
+
+  function orderValidation() {
+    let myCart = getCart();
+
+    if (
+      firstNameRegex.test(firstNameValue) === false ||
+      firstNameValue === null
+    ) {
+      firstNameErrorMsg.innerHTML = "Le prénom renseigné n'est pas valide";
+      return false;
+    } else if (
+      lastNameRegex.test(lastNameValue) === false ||
+      lastNameValue === null
+    ) {
+      lastNameErrorMsg.innerHTML =
+        "Le nom de famille renseigné n'est pas valide";
+      return false;
+    } else if (
+      addressRegex.test(addressValue) === false ||
+      addressValue === null
+    ) {
+      addressErrorMsg.innerHTML = "L'adresse renseigné n'est pas valide";
+      return false;
+
+    } else if (cityRegex.test(cityValue) === false || cityValue === null) {
+      cityErrorMsg.innerHTML = "La ville renseigné n'est pas valide";
+      return false;
+
+    } else if (emailRegex.test(emailValue) === false || emailValue === null) {
+      emailErrorMsg.innerHTML = "L'email renseigné n'est pas valide";
+      return false;
+    } else {
+      let formInfo = {
+        firstName: firstNameValue,
+        lastName: lastNameValue,
+        address: addressValue,
+        city: cityValue,
+        email: emailValue,
+      };
+
+      let productKanap = [];
+
+      for (let id of myCart) {
+        console.log(id);
+        productKanap.push(id);
+        console.log("IDDDD", productKanap);
+      }
+
+      let orderObject = { ...formInfo, ...productKanap };
+
+      /*       const orderId = fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(orderObject),
+      });
+      orderId.then(function (response) {
+        const retour = await response.json();
+        window.location.href = `confirmation.html?orderId=${retour.orderId}`;
+      }); */
+    }
+  }
+  orderValidation();
+});
