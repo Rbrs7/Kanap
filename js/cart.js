@@ -1,5 +1,7 @@
+
 let kanaps = [];
-fetch("http://localhost:3000/api/products")
+
+fetch(`http://localhost:3000/api/products/`)
   .then(function (res) {
     if (res.ok) {
       return res.json();
@@ -195,11 +197,9 @@ orderButton.addEventListener("click", function (e) {
     ) {
       addressErrorMsg.innerHTML = "L'adresse renseigné n'est pas valide";
       return false;
-
     } else if (cityRegex.test(cityValue) === false || cityValue === null) {
       cityErrorMsg.innerHTML = "La ville renseigné n'est pas valide";
       return false;
-
     } else if (emailRegex.test(emailValue) === false || emailValue === null) {
       emailErrorMsg.innerHTML = "L'email renseigné n'est pas valide";
       return false;
@@ -215,21 +215,25 @@ orderButton.addEventListener("click", function (e) {
       let productKanap = [];
 
       for (let id of myCart) {
-        console.log(id);
-        productKanap.push(id);
-        console.log("IDDDD", productKanap);
+        productKanap.push(id.id);
+        console.log("PRODUCTKANAP", productKanap);
       }
 
       let orderObject = { ...formInfo, ...productKanap };
+      console.log("ORDEROBJ", orderObject);
 
-      /*       const orderId = fetch("http://localhost:3000/api/products/order", {
+      const orderId = fetch("http://localhost:3000/api/products/order", {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(orderObject),
       });
-      orderId.then(function (response) {
-        const retour = await response.json();
-        window.location.href = `confirmation.html?orderId=${retour.orderId}`;
-      }); */
+      orderId.then(async function (response) {
+        const promise = await response.json();
+        window.location.href = `confirmation.html?orderId=${promise.orderId}`;
+      });
     }
   }
   orderValidation();
