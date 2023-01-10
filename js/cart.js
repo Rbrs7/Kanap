@@ -1,4 +1,3 @@
-
 let kanaps = [];
 
 fetch(`http://localhost:3000/api/products/`)
@@ -29,7 +28,8 @@ function displayCartData() {
   const data = [];
   let total = 0;
   let totalCart = document.getElementById("totalPrice");
-  if (myCart !== null) {
+  const kanap = localStorage.getItem("kanap");
+  if (kanap !== null) {
     myCart.forEach(function (cartItem, index) {
       console.log("myCart forEach", index);
       const kanap = findKanapFromId(cartItem.id);
@@ -146,11 +146,6 @@ function updateQuantity() {
   });
 }
 
-const firstName = document.getElementById("firstName");
-const lastName = document.getElementById("lastName");
-const address = document.getElementById("address");
-const city = document.getElementById("city");
-const email = document.getElementById("email");
 // REGEX
 const firstNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
 const lastNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
@@ -159,52 +154,55 @@ const cityRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
 const emailRegex =
   /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/;
 
-const orderButton = document.querySelector("#order");
-
+const firstName = document.getElementById("firstName");
 const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
+
+const lastName = document.getElementById("lastName");
 const lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
+
+const address = document.getElementById("address");
 const addressErrorMsg = document.querySelector("#addressErrorMsg");
+
+const city = document.getElementById("city");
 const cityErrorMsg = document.querySelector("#cityErrorMsg");
+
+const email = document.getElementById("email");
 const emailErrorMsg = document.querySelector("#emailErrorMsg");
 
+const orderButton = document.querySelector("#order");
 orderButton.addEventListener("click", function (e) {
   e.preventDefault();
-  let firstNameValue = firstName.value;
-  let lastNameValue = lastName.value;
-  let addressValue = address.value;
-  let cityValue = city.value;
-  let emailValue = email.value;
+  const firstNameValue = firstName.value;
+  const lastNameValue = lastName.value;
+  const addressValue = address.value;
+  const cityValue = city.value;
+  const emailValue = email.value;
 
   function orderValidation() {
-    let myCart = getCart();
+    const myCart = getCart();
 
     if (
       firstNameRegex.test(firstNameValue) === false ||
       firstNameValue === null
     ) {
       firstNameErrorMsg.innerHTML = "Le prénom renseigné n'est pas valide";
-      return false;
     } else if (
       lastNameRegex.test(lastNameValue) === false ||
       lastNameValue === null
     ) {
       lastNameErrorMsg.innerHTML =
         "Le nom de famille renseigné n'est pas valide";
-      return false;
     } else if (
       addressRegex.test(addressValue) === false ||
       addressValue === null
     ) {
-      addressErrorMsg.innerHTML = "L'adresse renseigné n'est pas valide";
-      return false;
+      addressErrorMsg.innerHTML = "L'adresse renseignée n'est pas valide";
     } else if (cityRegex.test(cityValue) === false || cityValue === null) {
-      cityErrorMsg.innerHTML = "La ville renseigné n'est pas valide";
-      return false;
+      cityErrorMsg.innerHTML = "La ville renseignée n'est pas valide";
     } else if (emailRegex.test(emailValue) === false || emailValue === null) {
       emailErrorMsg.innerHTML = "L'email renseigné n'est pas valide";
-      return false;
     } else {
-      let formInfo = {
+      const contact = {
         firstName: firstNameValue,
         lastName: lastNameValue,
         address: addressValue,
@@ -212,28 +210,34 @@ orderButton.addEventListener("click", function (e) {
         email: emailValue,
       };
 
-      let productKanap = [];
-
+      const products = [];
       for (let id of myCart) {
-        productKanap.push(id.id);
-        console.log("PRODUCTKANAP", productKanap);
+        products.push(id.id);
+        console.log("Tableau d'ID", products);
       }
+      const orderObject = { contact, products };
+      console.log(
+        "L'objet avec l'id des produits + formulaire de contact",
+        orderObject
+      );
 
-      let orderObject = { ...formInfo, ...productKanap };
-      console.log("ORDEROBJ", orderObject);
-
-      const orderId = fetch("http://localhost:3000/api/products/order", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderObject),
-      });
-      orderId.then(async function (response) {
-        const promise = await response.json();
-        window.location.href = `confirmation.html?orderId=${promise.orderId}`;
-      });
+      const kanap = localStorage.getItem("kanap");
+      if (kanap !== null) {
+        const orderId = fetch("http://localhost:3000/api/products/order", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderObject),
+        });
+        orderId.then(async function (response) {
+          const promise = await response.json();
+          window.location.href = `confirmation.html?orderId=${promise.orderId}`;
+        });
+      } else {
+        alert("Votre panier est vide.");
+      }
     }
   }
   orderValidation();
