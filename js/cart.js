@@ -28,8 +28,7 @@ function displayCartData() {
   const data = [];
   let total = 0;
   let totalCart = document.getElementById("totalPrice");
-  const kanap = localStorage.getItem("kanap");
-  if (kanap !== null) {
+  if (myCart.length > 0) {
     myCart.forEach(function (cartItem, index) {
       console.log("myCart forEach", index);
       const kanap = findKanapFromId(cartItem.id);
@@ -45,8 +44,10 @@ function displayCartData() {
     deleteButton();
     displayNumberProduct();
   } else {
+    objectJavascript = document.querySelector("section");
+    objectJavascript.style.display = "none";
     document.querySelector("h1").innerHTML =
-      "Vous n'avez pas d'article dans votre panier";
+    "Vous n'avez pas d'article dans votre panier";
   }
 }
 
@@ -101,6 +102,7 @@ function removeProduct(id, color) {
   if (indexToRemove > -1) {
     console.log("indexToRemove", indexToRemove);
     kanaps.splice(indexToRemove, 1);
+    displayCartData();
     console.log("newCart", kanaps);
   }
   saveCart(kanaps);
@@ -170,75 +172,91 @@ const email = document.getElementById("email");
 const emailErrorMsg = document.querySelector("#emailErrorMsg");
 
 const orderButton = document.querySelector("#order");
-orderButton.addEventListener("click", function (e) {
+const form = document.querySelector(".cart__order__form");
+
+form.addEventListener("submit", function (e) {
   e.preventDefault();
-  const firstNameValue = firstName.value;
-  const lastNameValue = lastName.value;
-  const addressValue = address.value;
-  const cityValue = city.value;
-  const emailValue = email.value;
+
+  const formData = new FormData(form);
+  const firstNameValue = formData.get("firstname") || firstName.value;
+  const lastNameValue = formData.get("lastname") || lastName.value;
+  const addressValue = formData.get("address") || address.value;
+  const cityValue = formData.get("city") || city.value;
+  const emailValue = formData.get("email") || email.value;
 
   function orderValidation() {
     const myCart = getCart();
 
-    if (
-      firstNameRegex.test(firstNameValue) === false ||
-      firstNameValue === null
-    ) {
+    const firstNameinvalid =
+      firstNameRegex.test(firstNameValue) === false || firstNameValue === null;
+    const lastNameInvalid =
+      lastNameRegex.test(lastNameValue) === false || lastNameValue === null;
+    const addressInvalid =
+      addressRegex.test(addressValue) === false || addressValue === null;
+    const cityInvalid =
+      cityRegex.test(cityValue) === false || cityValue === null;
+    const emailInvalid =
+      emailRegex.test(emailValue) === false || emailValue === null;
+
+    if (firstNameinvalid) {
       firstNameErrorMsg.innerHTML = "Le prénom renseigné n'est pas valide";
-    } else if (
-      lastNameRegex.test(lastNameValue) === false ||
-      lastNameValue === null
-    ) {
+      return false;
+    }
+    if (lastNameInvalid) {
       lastNameErrorMsg.innerHTML =
         "Le nom de famille renseigné n'est pas valide";
-    } else if (
-      addressRegex.test(addressValue) === false ||
-      addressValue === null
-    ) {
+      return false;
+    }
+    if (addressInvalid) {
       addressErrorMsg.innerHTML = "L'adresse renseignée n'est pas valide";
-    } else if (cityRegex.test(cityValue) === false || cityValue === null) {
+      return false;
+    }
+    if (cityInvalid) {
       cityErrorMsg.innerHTML = "La ville renseignée n'est pas valide";
-    } else if (emailRegex.test(emailValue) === false || emailValue === null) {
+      return false;
+    }
+    if (emailInvalid) {
       emailErrorMsg.innerHTML = "L'email renseigné n'est pas valide";
+      return false;
+    }
+
+    const contact = {
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      address: addressValue,
+      city: cityValue,
+      email: emailValue,
+    };
+
+    const products = [];
+    for (let id of myCart) {
+      products.push(id.id);
+      console.log("Tableau d'ID", products);
+    }
+    const orderObject = { contact, products };
+    console.log(
+      "L'objet avec l'id des produits + formulaire de contact",
+      orderObject
+    );
+
+    if (Array.isArray(myCart) && myCart.length > 0) {
+      const orderId = fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderObject),
+      });
+      orderId.then(async function (response) {
+        const promise = await response.json();
+        window.location.href = `confirmation.html?orderId=${promise.orderId}`;
+      });
     } else {
-      const contact = {
-        firstName: firstNameValue,
-        lastName: lastNameValue,
-        address: addressValue,
-        city: cityValue,
-        email: emailValue,
-      };
-
-      const products = [];
-      for (let id of myCart) {
-        products.push(id.id);
-        console.log("Tableau d'ID", products);
-      }
-      const orderObject = { contact, products };
-      console.log(
-        "L'objet avec l'id des produits + formulaire de contact",
-        orderObject
-      );
-
-      const kanap = localStorage.getItem("kanap");
-      if (kanap !== null) {
-        const orderId = fetch("http://localhost:3000/api/products/order", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderObject),
-        });
-        orderId.then(async function (response) {
-          const promise = await response.json();
-          window.location.href = `confirmation.html?orderId=${promise.orderId}`;
-        });
-      } else {
-        alert("Votre panier est vide.");
-      }
+      alert("Votre panier est vide.");
     }
   }
+
   orderValidation();
+  return false;
 });
