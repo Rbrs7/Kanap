@@ -149,10 +149,10 @@ function updateQuantity() {
 }
 
 // REGEX
-const firstNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
-const lastNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
-const addressRegex = /^[#.0-9a-zA-ZÀ-ÿ\s,-]{2,40}$/;
-const cityRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+const firstNameRegex = /^[a-zA-ZÀ-ÿ']+(?:[\s-'][a-zA-Z]+)*$/;
+const lastNameRegex = /^[a-zA-ZÀ-ÿ']+(?:[\s-'][a-zA-Z]+)*$/;
+const addressRegex = /^[a-zA-ZÀ-ÿ']+(?:[\s-'][a-zA-Z]+)*$/;
+const cityRegex = /^[a-zA-ZÀ-ÿ']+(?:[\s-'][a-zA-Z]+)*$/;
 const emailRegex =
   /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/;
 
