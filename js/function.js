@@ -17,7 +17,6 @@ function addCart(product) {
     (p) => p.id === product.id && p.color === product.color
   );
   if (foundKanap) {
-    // ou if (!foundKanap)
     foundKanap.quantity += Number(product.quantity);
   } else {
     kanap.push(product);
