@@ -1,7 +1,6 @@
 // Récupère l'ID du produit à partir de l'URL de la page
 var url = new URL(window.location.href);
 var id = url.searchParams.get("id");
-console.log(id);
 
 // Affiche les informations du produit dans la page HTML product
 function displayProduct(kanap) {
@@ -14,7 +13,6 @@ function displayProduct(kanap) {
     select.append(colorHtml);
   });
 
-  console.log("kanap", kanap);
   let itemClass = document.getElementsByClassName("item__img");
   itemClass.innerHTML = `<img src="${kanap.imageUrl}" alt="${kanap.altTxt}">`; // Affiche l'image du produit
   let titleId = document.getElementById("title");
