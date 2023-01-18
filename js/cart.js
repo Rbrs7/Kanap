@@ -205,7 +205,7 @@ const lastNameRegex = /^[a-zA-ZÀ-ÿ']+(?:[\s-'][a-zA-Z]+)*$/;
 const addressRegex = /^[a-zA-ZÀ-ÿ\d']+(?:[\s-'][a-zA-ZÀ-ÿ\d]+)*$/;
 const cityRegex = /^[a-zA-ZÀ-ÿ']+(?:[\s-'][a-zA-Z]+)*$/;
 const emailRegex =
-  /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/;
+  /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-zA-Z]+)*(.[a-z]{2,4})$/;
 
 const firstName = document.getElementById("firstName");
 const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
