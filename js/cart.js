@@ -189,6 +189,14 @@ function updateQuantity() {
       const updateItem = myCart.find(
         (item) => item.id === id && item.color === color
       );
+
+      if (newQuantity <= 0) {
+        /*         removeProduct(id, color);
+        displayCartData(); */
+        alert("Veuillez régler la quantité sur 1 ou plus");
+        event.target.value = updateItem.quantity;
+        return false;
+      }
       // Met à jour la propriété "quantity" de l'objet
       updateItem.quantity = newQuantity;
       // Enregistre les produits dans le panier en utilisant la fonction "saveCart"
@@ -332,7 +340,7 @@ form.addEventListener("submit", function (event) {
         // Redirection vers la page de confirmation avec l'identifiant de commande reçu dans la réponse
         window.location.href = `confirmation.html?orderId=${promise.orderId}`;
       });
-    // Affiche un message d'erreur si le panier est vide  
+      // Affiche un message d'erreur si le panier est vide
     } else {
       alert("Votre panier est vide.");
     }
